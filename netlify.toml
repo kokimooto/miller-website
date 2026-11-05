@@ -1,0 +1,18 @@
+# Netlify configuration for the Next.js (App Router) site.
+# The official Next.js Runtime plugin handles SSR, streaming, next/image and the
+# serverless functions automatically — no manual function wiring needed.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Next.js 16 needs Node 20.9+; pin a current LTS for reproducible builds.
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Secrets (GOOGLE_API_KEY, SPREAD_SHEET_ID) and per-domain values
+# (NEXT_PUBLIC_SITE_URL, SHEETS_REFERER) are set in the Netlify UI, NOT here —
+# see DEPLOY.md. Keeping them out of source avoids leaking the API key.

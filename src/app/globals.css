@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Custom font utilities: font-marck, font-pacifico, font-neue.
+     Values reference the CSS variables produced by next/font/local. */
+  --font-marck: var(--ff-marck), cursive, ui-sans-serif, sans-serif;
+  --font-caveat: var(--ff-caveat), var(--ff-marck), cursive, ui-sans-serif, sans-serif;
+  --font-pacifico: var(--ff-pacifico), cursive, ui-sans-serif, sans-serif;
+  --font-neue: var(--ff-neue), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--ff-neue), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* "Fire & Char" brand palette — ember red primary, charcoal base, amber accents.
+   Defined as theme colors so bg-brand / text-amber / border-char + opacity
+   modifiers all work as Tailwind utilities. */
+@theme {
+  --color-brand: #c2160f;
+  --color-brand-600: #a01410;
+  --color-brand-700: #800f0a;
+  --color-brand-900: #4e0907;
+  --color-flame: #ff4d1c;
+  --color-amber: #f4a623;
+  --color-amber-300: #ffce78;
+  --color-char: #140d0a;
+  --color-char-2: #1f1410;
+  --color-char-3: #2c1c15;
+  --color-cream: #fbf5ec;
+  --color-cream-2: #f1e5d2;
+  --color-smoke: #b9a89c;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 1.5rem;
+}
+
+body {
+  background: var(--color-cream);
+  color: #1a120d;
+  font-family: var(--ff-neue), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+/* ───────────────────────── Keyframes ───────────────────────── */
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-12px) rotate(var(--rot, 0deg));
+  }
+}
+
+/* Light, slow sheen that drifts across the call button then rests. */
+@keyframes btn-sheen {
+  0% {
+    background-position: 180% 0;
+  }
+  55%,
+  100% {
+    background-position: -80% 0;
+  }
+}
+
+@keyframes ring-radar {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sheen {
+  0% {
+    background-position: -150% 0;
+  }
+  100% {
+    background-position: 150% 0;
+  }
+}
+
+/* ───────────────────────── Utility animations ───────────────────────── */
+
+.float-slow {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+/* Hero entrance — staggered rise, no JS. */
+.rise {
+  opacity: 0;
+  animation: fade-up 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.d1 {
+  animation-delay: 0.05s;
+}
+.d2 {
+  animation-delay: 0.18s;
+}
+.d3 {
+  animation-delay: 0.32s;
+}
+.d4 {
+  animation-delay: 0.46s;
+}
+.d5 {
+  animation-delay: 0.6s;
+}
+.d6 {
+  animation-delay: 0.74s;
+}
+
+/* Scroll reveal — toggled by the Reveal client wrapper. */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Fire-gradient text for headlines. */
+.text-fire {
+  background: linear-gradient(
+    100deg,
+    var(--color-amber-300) 0%,
+    var(--color-amber) 30%,
+    var(--color-flame) 62%,
+    var(--color-brand) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Animated sheen sweep on the wordmark / accents. */
+.sheen {
+  background: linear-gradient(
+    100deg,
+    var(--color-amber) 0%,
+    #fff6e6 18%,
+    var(--color-amber-300) 36%,
+    var(--color-amber) 60%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sheen 4s linear infinite;
+}
+
+/* Social share icons — lift + glow in each network's colour on hover. */
+.share-icon {
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s ease;
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.4);
+}
+.share-icon:hover {
+  transform: translateY(-7px) scale(1.14) rotate(-5deg);
+  box-shadow: 0 18px 34px -8px var(--glow, rgba(0, 0, 0, 0.35));
+}
+.share-icon svg {
+  transition: transform 0.3s ease;
+}
+.share-icon:hover svg {
+  transform: scale(1.1);
+}
+
+/* "Менюто за днес" heading with flanking ember bars. */
+.section-title {
+  position: relative;
+  display: inline-block;
+  color: var(--color-brand);
+}
+.section-title::before,
+.section-title::after {
+  position: absolute;
+  content: "";
+  width: 46px;
+  height: 3px;
+  top: 50%;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-flame), var(--color-brand));
+}
+.section-title::before {
+  left: -58px;
+}
+.section-title::after {
+  right: -58px;
+}
+
+/* ───────────────────────── Reduced motion ───────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
